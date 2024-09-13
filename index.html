@@ -1,9 +1,8 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="ja">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Number List</title>
+    <title>セキュリティコードリスト</title>
     <style>
         body {
             font-family: Arial, sans-serif;
@@ -24,17 +23,35 @@
 </head>
 <body>
     <div class="title">cumberlane0910 whereisissa0511</div>
-    <ol>
-        <li>1. 6232 9512</li>
-        <li>2. 5817 4246</li>
-        <li>3. 2601 6280</li>
-        <li>4. 4233 3401</li>
-        <li>5. 6785 6196</li>
-        <li>6. 9069 6229</li>
-        <li>7. 6693 7932</li>
-        <li>8. 1658 0656</li>
-        <li>9. 8500 5186</li>
-        <li>10. 4016 1466</li>
+
+    <ol id="security-list">
+        <!-- セキュリティコードリストがここに表示されます -->
     </ol>
+
+    <script>
+        // codes.jsonを読み込んでリストを表示する関数
+        async function loadCodes() {
+            try {
+                const response = await fetch('codes.json');
+                if (!response.ok) {
+                    throw new Error('ネットワーク応答に問題があります。');
+                }
+                const data = await response.json();
+                const codes = data.securityCodes;
+                const listElement = document.getElementById('security-list');
+                listElement.innerHTML = '';
+                codes.forEach((code, index) => {
+                    const listItem = document.createElement('li');
+                    listItem.textContent = `${index + 1}. ${code}`;
+                    listElement.appendChild(listItem);
+                });
+            } catch (error) {
+                console.error('コードの読み込み中にエラーが発生しました：', error);
+            }
+        }
+
+        // ページ読み込み時にコードを読み込む
+        window.onload = loadCodes;
+    </script>
 </body>
 </html>
